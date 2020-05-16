@@ -8,8 +8,8 @@ import {
 } from "phaser3-rex-plugins/templates/ui/ui-components.js";
 import RoundRectangle from "phaser3-rex-plugins/plugins/roundrectangle.js";
 
-const COLOR_LIGHT = 0xa6e1fa;
-const COLOR_DARK = 0x001c55;
+const COLOR_LIGHT = 0x46afb9;
+const COLOR_DARK = 0x184c51;
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
