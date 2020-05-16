@@ -1,6 +1,9 @@
 import { Math, GameObjects } from "phaser";
 import { QuadTree, Circle } from "js-quadtree";
 
+const MAX_ACC = 1;
+const MAX_SPEED = 4;
+
 export default class Boid {
   private _sprite: GameObjects.Sprite;
   private _width: number;
@@ -9,8 +12,6 @@ export default class Boid {
   private _pos: Math.Vector2;
   private _vel: Math.Vector2 = Math.RandomXY(new Math.Vector2());
   private _acc: Math.Vector2 = new Math.Vector2();
-  private _maxAcc = 1;
-  private _maxSpeed = 4;
 
   constructor(
     sprite: GameObjects.Sprite,
@@ -83,9 +84,9 @@ export default class Boid {
   public update() {
     this.flock();
 
-    this._acc.limit(this._maxAcc);
+    this._acc.limit(MAX_ACC);
     this._vel.add(this._acc);
-    this._vel.limit(this._maxSpeed);
+    this._vel.limit(MAX_SPEED);
     this._pos.add(this._vel);
     this._acc.scale(0);
     this.edges();
