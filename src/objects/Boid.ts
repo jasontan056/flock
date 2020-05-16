@@ -23,7 +23,18 @@ export default class Boid {
   }
 
   // Ensure that boid stays onscreen.
-  private edges() {}
+  private edges() {
+    if (this._pos.x > this._width) {
+      this._pos.x = 0;
+    } else if (this._pos.x < 0) {
+      this._pos.x = this._width;
+    }
+    if (this._pos.y > this._height) {
+      this._pos.y = 0;
+    } else if (this._pos.y < 0) {
+      this._pos.y = this._height;
+    }
+  }
 
   private align() {
     // Find boids within perception radius.
