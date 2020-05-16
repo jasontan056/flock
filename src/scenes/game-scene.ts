@@ -65,16 +65,14 @@ export class GameScene extends Phaser.Scene {
       (value) => (this._forceMultipliers.cohesion = value)
     );
 
-    this._goblinCountText = this.add.text(0, 0, "0 Goblins");
+    this._goblinCountText = this.add.text(
+      0,
+      0,
+      "Click and hold to spawn goblins!"
+    );
 
     this._controlPanel = new Sizer(this, {
       anchor: { left: "left+10", top: "top+10" },
-      padding: {
-        top: 20,
-        bottom: 20,
-        left: 20,
-        right: 20,
-      },
       align: "left",
       orientation: "y",
     });
@@ -110,6 +108,7 @@ export class GameScene extends Phaser.Scene {
         );
 
         this._goblinCountText.text = `${this._goblins.length} Goblins`;
+        this._controlPanel.layout();
       }
     }
 
@@ -148,11 +147,7 @@ export class GameScene extends Phaser.Scene {
     const sizer = new Sizer(this, {
       x: 0,
       y: 0,
-      padding: {
-        top: 20,
-        left: 20,
-        right: 20,
-      },
+      space: { left: 0, right: 0, top: 0, bottom: 5 },
       orientation: "x",
     });
     sizer.add(this.add.text(0, 0, label));
