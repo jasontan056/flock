@@ -4,9 +4,9 @@ import { QuadTree, Circle } from "js-quadtree";
 const MAX_ACC = 1;
 const MAX_VEL = 4;
 
-const ALIGN_PERCEPTION_DIST = 50;
-const SEPERATION_PERCEPTION_DIST = 50;
-const COHESION_PERCEPTION_DIST = 100;
+const ALIGN_PERCEPTION_DIST = 25;
+const SEPERATION_PERCEPTION_DIST = 25;
+const COHESION_PERCEPTION_DIST = 50;
 
 export interface ForceMultipliers {
   align: number;
