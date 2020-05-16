@@ -1,8 +1,8 @@
-import * as Phaser from 'phaser';
-import Scenes from './scenes';
+import * as Phaser from "phaser";
+import Scenes from "./scenes";
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
-  title: 'Sample',
+  title: "Flockin Goblins!",
 
   type: Phaser.AUTO,
 
@@ -12,12 +12,12 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
 
   scene: Scenes,
-  parent: 'game',
-  backgroundColor: '#000000',
+  parent: "game",
+  backgroundColor: "#000000",
 };
 
 export const game = new Phaser.Game(gameConfig);
 
-window.addEventListener('resize', () => {
+window.addEventListener("resize", () => {
   game.scale.refresh();
 });
