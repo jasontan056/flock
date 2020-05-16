@@ -37,9 +37,19 @@ export class GameScene extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
+
+    this.load.image("floor", "assets/floor.png");
   }
 
   public create() {
+    this.add.tileSprite(
+      0,
+      0,
+      getGameWidth(this) * 2,
+      getGameHeight(this) * 2,
+      "floor"
+    );
+
     // Walking animation.
     this.anims.create({
       key: "walk",
