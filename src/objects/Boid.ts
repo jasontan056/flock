@@ -81,15 +81,33 @@ export default class Boid {
     return alignAcc;
   }
 
-  private _separation() {
-    // Find boids within perception radius.
-    // Get vector pointing from other position and this position.
-    // Divide by something related to distance to make separation force inversely correlated
-    //   with distance.
-    // Get average of all of these.
-    // Set magnitude of steering velocity to max.
-    // Get difference between desired steering velocity and current velocity.
-    // Limit to max force.
+  private _separation(): Math.Vector2 {
+    const nearby = this._quadTree.query(
+      new Circle(this._pos.x, this._pos.y, SEPERATION_PERCEPTION_DIST)
+    );
+
+    const separateAcc = new Math.Vector2();
+    let total = 0;
+    for (const other of nearby) {
+      if (other.data !== this) {
+        const diff = this._pos.clone();
+        diff.subtract(other.data.pos);
+
+        const dist = this._pos.distanceSq(other.data.pos);
+        diff.scale(1 / dist);
+        separateAcc.add(diff);
+        total++;
+      }
+    }
+
+    if (total > 0) {
+      separateAcc.scale(1 / total);
+      separateAcc.setLength(MAX_VEL);
+      separateAcc.subtract(this._vel);
+      separateAcc.limit(MAX_ACC);
+    }
+
+    return separateAcc;
   }
 
   private _cohesion() {
@@ -103,8 +121,10 @@ export default class Boid {
 
   private _flock() {
     const alignAcc = this._align().scale(ALIGN_MULT);
+    const separateAcc = this._separation().scale(SEPARATION_MULT);
 
     this._acc.add(alignAcc);
+    this._acc.add(separateAcc);
   }
 
   public update() {
