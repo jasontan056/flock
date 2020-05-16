@@ -14,6 +14,7 @@ const COHESION_MULT = 1;
 
 export default class Boid {
   private _sprite: GameObjects.Sprite;
+  private _spriteDirection: "RIGHT" | "LEFT" = "RIGHT";
   private _width: number;
   private _height: number;
   private _quadTree: QuadTree;
@@ -145,6 +146,17 @@ export default class Boid {
     this._acc.add(cohesionAcc);
   }
 
+  private _setSpriteDirection() {
+    let newDir = "RIGHT";
+    if (this._vel.x < 0) {
+      newDir = "LEFT";
+    }
+
+    if (newDir !== this._spriteDirection) {
+      this._sprite.toggleFlipX();
+    }
+  }
+
   public update() {
     this._flock();
 
@@ -157,5 +169,6 @@ export default class Boid {
 
     this._sprite.setX(this._pos.x);
     this._sprite.setY(this._pos.y);
+    this._setSpriteDirection();
   }
 }
