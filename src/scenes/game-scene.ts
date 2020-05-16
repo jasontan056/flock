@@ -15,10 +15,6 @@ export class GameScene extends Phaser.Scene {
 
   constructor() {
     super(sceneConfig);
-
-    this._quadTree = new QuadTree(
-      new Box(0, 0, getGameWidth(this), getGameHeight(this))
-    );
   }
 
   public preload() {
@@ -36,6 +32,10 @@ export class GameScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     });
+
+    this._quadTree = new QuadTree(
+      new Box(0, 0, getGameWidth(this), getGameHeight(this))
+    );
   }
 
   public update() {
