@@ -110,21 +110,39 @@ export default class Boid {
     return separateAcc;
   }
 
-  private _cohesion() {
-    // Find boids within perception radius.
-    // Get average position of nearby boids.
-    // Steer towards that average position (curPos - avgPos)
-    // Set magnitude of steering velocity to max.
-    // Get difference between desired steering velocity and current velocity.
-    // Limit to max force.
+  private _cohesion(): Math.Vector2 {
+    const nearby = this._quadTree.query(
+      new Circle(this._pos.x, this._pos.y, COHESION_PERCEPTION_DIST)
+    );
+
+    const cohesionAcc = new Math.Vector2();
+    let total = 0;
+    for (const other of nearby) {
+      if (other.data !== this) {
+        cohesionAcc.add(other.data.pos);
+        total++;
+      }
+    }
+
+    if (total > 0) {
+      cohesionAcc.scale(1 / total);
+      cohesionAcc.subtract(this._pos);
+      cohesionAcc.setLength(MAX_VEL);
+      cohesionAcc.subtract(this._vel);
+      cohesionAcc.limit(MAX_ACC);
+    }
+
+    return cohesionAcc;
   }
 
   private _flock() {
     const alignAcc = this._align().scale(ALIGN_MULT);
     const separateAcc = this._separation().scale(SEPARATION_MULT);
+    const cohesionAcc = this._cohesion().scale(COHESION_MULT);
 
     this._acc.add(alignAcc);
     this._acc.add(separateAcc);
+    this._acc.add(cohesionAcc);
   }
 
   public update() {
