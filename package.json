@@ -11,6 +11,7 @@
     "dev": "webpack-dev-server"
   },
   "dependencies": {
+    "js-quadtree": "^3.2.0",
     "phaser": "^3.20.1"
   },
   "devDependencies": {

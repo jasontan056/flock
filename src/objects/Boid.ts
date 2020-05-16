@@ -1,9 +1,11 @@
 import { Math, GameObjects } from "phaser";
+import { QuadTree, Circle } from "js-quadtree";
 
 export default class Boid {
   private _sprite: GameObjects.Sprite;
   private _width: number;
   private _height: number;
+  private _quadTree: QuadTree;
   private _pos: Math.Vector2;
   private _vel: Math.Vector2 = Math.RandomXY(new Math.Vector2());
   private _acc: Math.Vector2 = new Math.Vector2();
@@ -14,12 +16,22 @@ export default class Boid {
     sprite: GameObjects.Sprite,
     width: number,
     height: number,
+    quadTree: QuadTree,
     pos: Math.Vector2
   ) {
+    this._sprite = sprite;
     this._width = width;
     this._height = height;
-    this._sprite = sprite;
+    this._quadTree = quadTree;
     this._pos = pos;
+  }
+
+  get pos(): Math.Vector2 {
+    return this._pos;
+  }
+
+  get vel(): Math.Vector2 {
+    return this._vel;
   }
 
   // Ensure that boid stays onscreen.

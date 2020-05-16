@@ -1,6 +1,7 @@
 import { Math } from "phaser";
 import { getGameWidth, getGameHeight } from "../helpers";
 import Boid from "../objects/Boid";
+import { QuadTree, Box, Point } from "js-quadtree";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -10,9 +11,14 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameScene extends Phaser.Scene {
   private _goblins: Boid[] = [];
+  private _quadTree: QuadTree;
 
   constructor() {
     super(sceneConfig);
+
+    this._quadTree = new QuadTree(
+      new Box(0, 0, getGameWidth(this), getGameHeight(this))
+    );
   }
 
   public preload() {
@@ -46,13 +52,16 @@ export class GameScene extends Phaser.Scene {
           sprite,
           getGameWidth(this),
           getGameHeight(this),
+          this._quadTree,
           new Math.Vector2(x, y)
         )
       );
     }
 
-    for (const goblin of this._goblins) {
-      goblin.update();
-    }
+    this._quadTree.clear();
+    this._goblins.forEach((goblin) =>
+      this._quadTree.insert(new Point(goblin.pos.x, goblin.pos.y, goblin))
+    );
+    this._goblins.forEach((goblin) => goblin.update());
   }
 }
