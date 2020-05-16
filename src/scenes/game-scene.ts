@@ -1,5 +1,6 @@
-import { Input } from "phaser";
+import { Math } from "phaser";
 import { getGameWidth, getGameHeight } from "../helpers";
+import Boid from "../objects/Boid";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -8,7 +9,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 };
 
 export class GameScene extends Phaser.Scene {
-  private goblins = [];
+  private _goblins: Boid[] = [];
 
   constructor() {
     super(sceneConfig);
@@ -37,10 +38,21 @@ export class GameScene extends Phaser.Scene {
       const x = pointer.x;
       const y = pointer.y;
 
-      const goblin = this.add.sprite(x, y, "goblin");
-      goblin.anims.load("walk");
-      goblin.anims.play("walk");
-      this.goblins.push(goblin);
+      const sprite = this.add.sprite(x, y, "goblin");
+      sprite.anims.load("walk");
+      sprite.anims.play("walk");
+      this._goblins.push(
+        new Boid(
+          sprite,
+          getGameWidth(this),
+          getGameHeight(this),
+          new Math.Vector2(x, y)
+        )
+      );
+    }
+
+    for (const goblin of this._goblins) {
+      goblin.update();
     }
   }
 }

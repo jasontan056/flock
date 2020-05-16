@@ -1,5 +1,26 @@
-class Boid {
-  constructor() {}
+import { Math, GameObjects } from "phaser";
+
+export default class Boid {
+  private _sprite: GameObjects.Sprite;
+  private _width: number;
+  private _height: number;
+  private _pos: Math.Vector2;
+  private _vel: Math.Vector2 = Math.RandomXY(new Math.Vector2());
+  private _acc: Math.Vector2 = new Math.Vector2();
+  private _maxForce = 1;
+  private _maxSpeed = 4;
+
+  constructor(
+    sprite: GameObjects.Sprite,
+    width: number,
+    height: number,
+    pos: Math.Vector2
+  ) {
+    this._width = width;
+    this._height = height;
+    this._sprite = sprite;
+    this._pos = pos;
+  }
 
   // Ensure that boid stays onscreen.
   private edges() {}
@@ -43,6 +64,4 @@ class Boid {
     // Limit velicity.
     // Clear out acceleration.
   }
-
-  show() {}
 }
