@@ -7,7 +7,7 @@ export default class Boid {
   private _pos: Math.Vector2;
   private _vel: Math.Vector2 = Math.RandomXY(new Math.Vector2());
   private _acc: Math.Vector2 = new Math.Vector2();
-  private _maxForce = 1;
+  private _maxAcc = 1;
   private _maxSpeed = 4;
 
   constructor(
@@ -69,10 +69,16 @@ export default class Boid {
   }
 
   public update() {
-    this.edges();
     this.flock();
-    // Calc position, velocity.
-    // Limit velicity.
-    // Clear out acceleration.
+
+    this._acc.limit(this._maxAcc);
+    this._vel.add(this._acc);
+    this._vel.limit(this._maxSpeed);
+    this._pos.add(this._vel);
+    this._acc.scale(0);
+    this.edges();
+
+    this._sprite.setX(this._pos.x);
+    this._sprite.setY(this._pos.y);
   }
 }
