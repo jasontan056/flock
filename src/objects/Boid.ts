@@ -8,9 +8,11 @@ const ALIGN_PERCEPTION_DIST = 50;
 const SEPERATION_PERCEPTION_DIST = 50;
 const COHESION_PERCEPTION_DIST = 100;
 
-const ALIGN_MULT = 1;
-const SEPARATION_MULT = 1;
-const COHESION_MULT = 1;
+export interface ForceMultipliers {
+  align: number;
+  separate: number;
+  cohesion: number;
+}
 
 export default class Boid {
   private _sprite: GameObjects.Sprite;
@@ -21,19 +23,22 @@ export default class Boid {
   private _pos: Math.Vector2;
   private _vel: Math.Vector2 = Math.RandomXY(new Math.Vector2());
   private _acc: Math.Vector2 = new Math.Vector2();
+  private _forceMultipliers: ForceMultipliers;
 
   constructor(
     sprite: GameObjects.Sprite,
     width: number,
     height: number,
     quadTree: QuadTree,
-    pos: Math.Vector2
+    pos: Math.Vector2,
+    forceMultipliers: ForceMultipliers
   ) {
     this._sprite = sprite;
     this._width = width;
     this._height = height;
     this._quadTree = quadTree;
     this._pos = pos;
+    this._forceMultipliers = forceMultipliers;
   }
 
   get pos(): Math.Vector2 {
@@ -137,9 +142,11 @@ export default class Boid {
   }
 
   private _flock() {
-    const alignAcc = this._align().scale(ALIGN_MULT);
-    const separateAcc = this._separation().scale(SEPARATION_MULT);
-    const cohesionAcc = this._cohesion().scale(COHESION_MULT);
+    const alignAcc = this._align().scale(this._forceMultipliers.align);
+    const separateAcc = this._separation().scale(
+      this._forceMultipliers.separate
+    );
+    const cohesionAcc = this._cohesion().scale(this._forceMultipliers.cohesion);
 
     this._acc.add(alignAcc);
     this._acc.add(separateAcc);

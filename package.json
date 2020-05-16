@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "js-quadtree": "^3.2.0",
-    "phaser": "^3.20.1"
+    "phaser": "^3.20.1",
+    "phaser3-rex-plugins": "^1.1.14"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^6.0.1",
