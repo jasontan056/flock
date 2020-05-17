@@ -27,7 +27,8 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
   },
 
-  mode: "production",
+  // !!! Fix this later. Need to reduce vendor bundle size.
+  mode: "development",
 
   plugins: [
     new CopyWebpackPlugin({
